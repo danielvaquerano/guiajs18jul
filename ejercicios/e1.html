@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+    <h1>Bienvenido a Ejercicio 1</h1>
+    <p></p>
+    <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+    <div class="container text-center mt-5">
+        <h1>¿Eres mayor de edad?</h1>
+        <p>Ingresa tu edad para verificarlo:</p>
+        <input type="number" id="edadInput" class="form-control w-25 mx-auto" placeholder="Ej: 21">
+        <button onclick="verificarEdad()" class="btn btn-primary mt-3">Verificar</button>
+        <p id="resultado" class="mt-4 fs-4"></p>
+    </div>
+    
+    <script>
+        function verificarEdad(){
+            const edad = parseInt(document.getElementById("edadInput").value);  
+            if (edad == 0) {
+                const mensaje = "Edad inválida";
+                document.getElementById("resultado").textContent = mensaje;
+
+            }
+            else{
+                const mensaje = edad >= 18 ? "Felicidades, eres mayor de edad." : "Eres menor de edad";
+                document.getElementById("resultado").textContent = mensaje;
+            }
+            
+        }
+    </script>
+
+    
+</body>
+</html>

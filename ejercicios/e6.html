@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 6</h1>
+  <p></p>
+    <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+    <div class="container">
+        <h1>Calculadora de Descuentos para Viajes</h1>
+    <p>Precio fijo del viaje: $100</p>
+
+        <label for="origen">Ciudad de Origen:</label>
+        <select id="origen">
+            <option value="">Seleccione origen</option>
+            <option value="palma">La Palma</option>
+            <option value="comasagua">Comasagua</option>
+            <option value="santa tecla">Santa Tecla</option>
+        </select>
+
+        <label for="destino">Ciudad de Destino:</label>
+        <select id="destino">
+            <option value="">Seleccione destino</option>
+            <option value="costa del sol">Costa del Sol</option>
+            <option value="panchimalco">Panchimalco</option>
+            <option value="puerto el triunfo">Puerto el Triunfo</option>
+            <option value="la libertad">La Libertad</option>
+        </select>
+
+        <button onclick="calcularDescuento()">Calcular Descuento</button>
+
+        <div id="resultado"></div>
+    </div>
+    
+
+    <script>
+        const PRECIO_BASE = 100; // Precio fijo de $100
+
+        function calcularDescuento() {
+            // Obtener valores seleccionados
+            const origen = document.getElementById('origen').value;
+            const destino = document.getElementById('destino').value;
+            const resultadoDiv = document.getElementById('resultado');
+
+            // Validar selección
+            if (!origen || !destino) {
+                resultadoDiv.innerHTML = "Por favor seleccione tanto el origen como el destino.";
+                return;
+            }
+
+            // Solo aplicar descuentos si el origen es Palma
+            let descuento = 0;
+            if (origen === 'palma') {
+                switch(destino) {
+                    case 'costa del sol':
+                        descuento = 5;
+                        break;
+                    case 'panchimalco':
+                        descuento = 10;
+                        break;
+                    case 'puerto el triunfo':
+                        descuento = 15;
+                        break;
+                }
+            }
+
+            // Calcular resultados
+            const montoDescuento = (PRECIO_BASE * descuento) / 100;
+            const precioFinal = PRECIO_BASE - montoDescuento;
+            
+            // Mostrar resultados
+            resultadoDiv.innerHTML = `
+                <h3>Resultado:</h3>
+                <p>Origen: ${origen.charAt(0).toUpperCase() + origen.slice(1)}</p>
+                <p>Destino: ${destino.charAt(0).toUpperCase() + destino.slice(1)}</p>
+                ${descuento > 0 ? 
+                    `<p>Descuento aplicado: ${descuento}%</p>
+                     <p>Monto del descuento: $${montoDescuento.toFixed(2)}</p>` 
+                    : '<p>No hay descuentos disponibles para esta ruta</p>'}
+                <p><strong>Precio final: $${precioFinal.toFixed(2)}</strong></p>
+            `;
+        }
+    </script>
+
+    
+</body>
+</html>

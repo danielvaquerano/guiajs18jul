@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 4</h1>
+  <p></p>
+  <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+     <div class="container">
+        <h1>Comparador de Números Enteros</h1>
+        
+        <div class="form-group">
+            <label for="numero1">Primer Número Entero:</label>
+            <input type="number" id="numero1" step="1" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="numero2">Segundo Número Entero:</label>
+            <input type="number" id="numero2" step="1" required>
+        </div>
+        
+        <button onclick="compararNumeros()" class="btn btn-primary" >Comparar Números</button>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function compararNumeros() {
+            // Obtener valores del formulario
+            const num1 = parseInt(document.getElementById('numero1').value);
+            const num2 = parseInt(document.getElementById('numero2').value);
+            const resultadoDiv = document.getElementById('resultado');
+            
+            // Validar que se hayan ingresado números
+            if (isNaN(num1) || isNaN(num2)) {
+                alert('Por favor ingrese ambos números');
+                return;
+            }
+            
+            // Comparar los números
+            let mensaje;
+            if (num1 > num2) {
+                mensaje = `El <span class="numero-mayor">primer número (${num1})</span> es mayor que el segundo (${num2})`;
+            } else if (num2 > num1) {
+                mensaje = `El <span class="numero-mayor">segundo número (${num2})</span> es mayor que el primero (${num1})`;
+            } else {
+                mensaje = `<span class="iguales">Ambos números son iguales (${num1})</span>`;
+            }
+            
+            // Mostrar resultado
+            resultadoDiv.innerHTML = mensaje;
+            resultadoDiv.style.display = 'block';
+        }
+    </script>
+
+    
+</body>
+</html>

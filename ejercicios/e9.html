@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 9</h1>
+  <p></p>
+  <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+    <div class="container">
+            <h2>Conversor de Celsius a Farenheit</h2>
+            <div class="mb-4">
+                <label>Temperatura en grados Centígrados</label>
+                <input type="number" id="celsius" class="form-control" placeholder="Ej: 25">
+            </div>
+            <button onclick="convertir()" class="btn btn-primary">Convertir</button>
+            <p class="mt-3 fs-5" id="resultado"></p>
+    </div>
+
+
+    <script>
+        function convertir(){
+            const celsius = parseFloat(document.getElementById("celsius").value);
+            const farenheit = (celsius * 9/5) + 32;
+
+            console.log("temperatura calculada: " + farenheit);
+
+            let mensaje = "";
+            if(farenheit >= 14 && farenheit < 40) mensaje = "Temperatura Baja. Precaución, hace frío afuera. 🥶";
+            else if (farenheit >= 41 && farenheit < 49) mensaje = "Temperatura Baja. Precaución, hace frío afuera. 🥶";
+            else if (farenheit >= 50 && farenheit < 71) mensaje = "Temperatura agradable, puedes disfrutar del día 😎";
+            else if (farenheit >= 72 && farenheit <= 101) mensaje = "Temperatura alta. Precaución hace muuucho calor 🥵";
+            else mensaje = "Temperatura desconocida";
+
+            document.getElementById("resultado").textContent =
+            `Fahrenheit: ${farenheit.toFixed(2)} °F - ${mensaje}`;
+
+        }
+    </script>
+
+    
+</body>
+</html>

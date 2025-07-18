@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 3</h1>
+  <p></p>
+  <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+     <div class="container">
+        <h1>Calculadora de Aumento Salarial</h1>
+        
+        <table class="tabla-categorias">
+            <thead>
+                <tr>
+                    <th>Categoría</th>
+                    <th>Aumento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td>15%</td>
+                </tr>
+                <tr>
+                    <td>B</td>
+                    <td>30%</td>
+                </tr>
+                <tr>
+                    <td>C</td>
+                    <td>10%</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>20%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <label for="nombre">Nombre del Empleado:</label>
+            <input type="text" id="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="salario">Salario Actual ($):</label>
+            <input type="number" id="salario" min="0" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="categoria">Categoría:</label>
+            <select id="categoria" required>
+                <option value="">Seleccione una categoría</option>
+                <option value="A">A - 15%</option>
+                <option value="B">B - 30%</option>
+                <option value="C">C - 10%</option>
+                <option value="D">D - 20%</option>
+            </select>
+        </div>
+        <button onclick="calcularAumento()" class="btn btn-primary" >Calcular Aumento</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function calcularAumento() {
+            // Obtener valores del formulario
+            const nombre = document.getElementById('nombre').value;
+            const salario = parseFloat(document.getElementById('salario').value);
+            const categoria = document.getElementById('categoria').value;
+
+            // Validar datos
+            if (!nombre || isNaN(salario) || !categoria) {
+                alert('Por favor complete todos los campos correctamente');
+                return;
+            }
+
+            // Calcular aumento según categoría
+            let porcentajeAumento;
+            switch(categoria) {
+                case 'A':
+                    porcentajeAumento = 15;
+                    break;
+                case 'B':
+                    porcentajeAumento = 30;
+                    break;
+                case 'C':
+                    porcentajeAumento = 10;
+                    break;
+                case 'D':
+                    porcentajeAumento = 20;
+                    break;
+                default:
+                    porcentajeAumento = 0;
+            }
+
+            const montoAumento = salario * (porcentajeAumento / 100);
+            const nuevoSalario = salario + montoAumento;
+
+            // Mostrar resultados
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = `
+                <h3>Resultado para el empleado:</h3>
+                <p><strong>Nombre:</strong> ${nombre}</p>
+                <p><strong>Salario Actual:</strong> $${salario.toFixed(2)}</p>
+                <p><strong>Categoría:</strong> ${categoria}</p>
+                <p><strong>Porcentaje de Aumento:</strong> ${porcentajeAumento}%</p>
+                <p class="aumento"><strong>Monto de Aumento:</strong> $${montoAumento.toFixed(2)}</p>
+                <p class="aumento"><strong>Nuevo Salario:</strong> $${nuevoSalario.toFixed(2)}</p>
+            `;
+            resultadoDiv.style.display = 'block';
+        }
+    </script>
+
+    
+</body>
+</html>

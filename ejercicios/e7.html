@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 7</h1>
+  <p></p>
+  <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+    <div class="container">
+        <h1>Ingrese 10 números enteros</h1>
+    
+        <div>
+            <label for="numeroInput">Ingrese un número:</label>
+            <input type="number" id="numeroInput" step="1">
+            <button onclick="agregarNumero()">Agregar</button>
+        </div>
+        
+        <div id="listaNumeros">
+            <h3>Números ingresados:</h3>
+            <p id="numerosMostrados">Ningún número ingresado aún</p>
+        </div>
+        
+        <button onclick="calcularResultados()" id="btnCalcular" disabled>Calcular Resultados</button>
+        
+        <div id="resultados" style="margin-top: 20px;">
+            <h2>Resultados:</h2>
+            <p id="negativos"></p>
+            <p id="positivos"></p>
+            <p id="multiplos15"></p>
+            <p id="sumaPares"></p>
+        </div>
+    </div>
+    
+
+    <script>
+        // Arreglo para almacenar los números temporalmente
+        const numeros = [];
+        
+        function agregarNumero() {
+            const input = document.getElementById('numeroInput');
+            const num = parseInt(input.value);
+            
+            if (isNaN(num)) {
+                alert('Por favor ingrese un número válido');
+                return;
+            }
+            
+            // Agregar el número al arreglo
+            numeros.push(num);
+            input.value = ''; // Limpiar el input
+            
+            // Actualizar visualización
+            actualizarNumerosMostrados();
+            
+            // Habilitar el botón de calcular cuando hay 10 números
+            if (numeros.length === 10) {
+                document.getElementById('btnCalcular').disabled = false;
+            }
+        }
+        
+        function actualizarNumerosMostrados() {
+            const display = document.getElementById('numerosMostrados');
+            if (numeros.length === 0) {
+                display.textContent = 'Ningún número ingresado aún';
+            } else {
+                display.textContent = `Números: ${numeros.join(', ')} (${numeros.length}/10)`;
+            }
+        }
+        
+        function calcularResultados() {
+            if (numeros.length !== 10) {
+                alert('Debe ingresar exactamente 10 números');
+                return;
+            }
+            
+            // Variables para los contadores
+            let negativos = 0;
+            let positivos = 0;
+            let multiplos15 = 0;
+            let sumaPares = 0;
+            
+            // Procesar el arreglo de números
+            numeros.forEach(num => {
+                // Contar positivos y negativos
+                if (num < 0) {
+                    negativos++;
+                } else if (num > 0) {
+                    positivos++;
+                }
+                
+                // Contar múltiplos de 15
+                if (num % 15 === 0 && num !== 0) {
+                    multiplos15++;
+                }
+                
+                // Sumar números pares
+                if (num % 2 === 0) {
+                    sumaPares += num;
+                }
+            });
+            
+            // Mostrar resultados
+            document.getElementById('negativos').textContent = `Valores negativos: ${negativos}`;
+            document.getElementById('positivos').textContent = `Valores positivos: ${positivos}`;
+            document.getElementById('multiplos15').textContent = `Múltiplos de 15: ${multiplos15}`;
+            document.getElementById('sumaPares').textContent = `Suma de números pares: ${sumaPares}`;
+        }
+    </script>
+
+    
+</body>
+</html>
