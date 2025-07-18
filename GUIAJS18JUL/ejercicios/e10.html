@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS</title>
+  <link rel="stylesheet" href="../css/estilo.css">
+    <style>
+        .grupo-edades {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .grupo-edades h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+        #resultados {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #e8f4fc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+  <h1>Bienvenido a Ejercicio 10</h1>
+  <p></p>
+    <div class="grid-container">
+        
+        <a href="../index.html" class="grid-button">Volver a Inicio</a>
+
+    </div>
+        <div class="container text-center mt-5">
+            <h1>Registro de Edades por Turno</h1>
+    
+            <!-- Turno Mañana (5 estudiantes) -->
+            <div class="grupo-edades" id="grupo1">
+                <h2>Turno Mañana (5 estudiantes)</h2>
+                <input type="number" class="edad-input" placeholder="Ingrese edad" min="1" step="1">
+                <button onclick="agregarEdad(1)">Agregar Edad</button>
+                <div class="edades-list"></div>
+                <button onclick="procesarGrupo(1)" disabled>Procesar Turno Mañana</button>
+            </div>
+            
+            <!-- Turno Tarde (6 estudiantes) -->
+            <div class="grupo-edades" id="grupo2">
+                <h2>Turno Tarde (6 estudiantes)</h2>
+                <input type="number" class="edad-input" placeholder="Ingrese edad" min="1" step="1">
+                <button onclick="agregarEdad(2)">Agregar Edad</button>
+                <div class="edades-list"></div>
+                <button onclick="procesarGrupo(2)" disabled>Procesar Turno Tarde</button>
+            </div>
+            
+            <!-- Turno Noche (11 estudiantes) -->
+            <div class="grupo-edades" id="grupo3">
+                <h2>Turno Noche (11 estudiantes)</h2>
+                <input type="number" class="edad-input" placeholder="Ingrese edad" min="1" step="1">
+                <button onclick="agregarEdad(3)">Agregar Edad</button>
+                <div class="edades-list"></div>
+                <button onclick="procesarGrupo(3)" disabled>Procesar Turno Noche</button>
+            </div>
+            
+            <div id="resultados"></div>
+    </div>
+    
+    
+
+    <script>
+        // Arreglos para almacenar edades de cada turno
+        const grupos = {
+            1: [], // Mañana (5 estudiantes)
+            2: [], // Tarde (6 estudiantes)
+            3: []  // Noche (11 estudiantes)
+        };
+        
+        // Límites por grupo
+        const limites = {
+            1: 5,
+            2: 6,
+            3: 11
+        };
+        
+        // Función para agregar edades a cada grupo
+        function agregarEdad(grupoNum) {
+            const input = document.querySelector(`#grupo${grupoNum} .edad-input`);
+            const edad = parseInt(input.value);
+            
+            if (isNaN(edad) || edad < 1) {
+                alert('Por favor ingrese una edad válida (número entero positivo)');
+                return;
+            }
+            
+            // Verificar si ya se alcanzó el límite
+            if (grupos[grupoNum].length >= limites[grupoNum]) {
+                alert(`Este turno solo acepta ${limites[grupoNum]} estudiantes`);
+                return;
+            }
+            
+            // Agregar edad al grupo correspondiente
+            grupos[grupoNum].push(edad);
+            input.value = ''; // Limpiar el input
+            
+            // Actualizar visualización
+            actualizarListaEdades(grupoNum);
+            
+            // Habilitar botón de procesar si se completó el grupo
+            if (grupos[grupoNum].length === limites[grupoNum]) {
+                document.querySelector(`#grupo${grupoNum} button[onclick^="procesarGrupo"]`).disabled = false;
+                input.disabled = true;
+                document.querySelector(`#grupo${grupoNum} button[onclick="agregarEdad(${grupoNum})"]`).disabled = true;
+            }
+        }
+        
+        // Actualiza la lista visual de edades
+        function actualizarListaEdades(grupoNum) {
+            const lista = document.querySelector(`#grupo${grupoNum} .edades-list`);
+            lista.innerHTML = `
+                <p><strong>Edades registradas:</strong> <span class="contador">${grupos[grupoNum].length}/${limites[grupoNum]}</span></p>
+                <p>${grupos[grupoNum].join(', ')}</p>
+            `;
+        }
+        
+        // Procesa las edades de un grupo específico
+        function procesarGrupo(grupoNum) {
+            const edades = grupos[grupoNum];
+            const nombresTurnos = {
+                1: "Mañana",
+                2: "Tarde",
+                3: "Noche"
+            };
+            
+            // Cálculos estadísticos
+            const total = edades.length;
+            const promedio = (edades.reduce((a, b) => a + b, 0) / total).toFixed(2);
+            const menores = edades.filter(edad => edad < 18).length;
+            const mayores = edades.filter(edad => edad >= 18).length;
+            const minEdad = Math.min(...edades);
+            const maxEdad = Math.max(...edades);
+            
+            // Mostrar resultados
+            const resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.innerHTML += `
+                <h3>Resultados Turno ${nombresTurnos[grupoNum]}</h3>
+                <p>Total estudiantes: ${total}</p>
+                <p>Edad promedio: ${promedio}</p>
+                <p>Menores de 18: ${menores}</p>
+                <p>Mayores de 18: ${mayores}</p>
+                <p>Edad mínima: ${minEdad}</p>
+                <p>Edad máxima: ${maxEdad}</p>
+                <p>Todas las edades: ${edades.join(', ')}</p>
+                <hr>
+            `;
+        }
+    </script>
+
+    
+</body>
+</html>
